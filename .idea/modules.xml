@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://D://gardencalendar/gardencalendar.iml" filepath="D://gardencalendar/gardencalendar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gardencalendar.iml" filepath="$PROJECT_DIR$/gardencalendar.iml" />
     </modules>
   </component>
 </project>
