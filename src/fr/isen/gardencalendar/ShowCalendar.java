@@ -20,6 +20,10 @@ public class ShowCalendar extends Activity {
 
         plantList.setAdapter(list);
         plantList.setClickable(true);
+        
+        //à voir pour graphique :
+        //librairies for developer
+        //devappsdirect
 
     }
 }
