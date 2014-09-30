@@ -24,6 +24,7 @@ public class ShowCalendar extends Activity {
         //à voir pour graphique :
         //librairies for developer
         //devappsdirect
+        //penser à utiliser android studio <3
 
     }
 }
