@@ -5,7 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import android.widget.CursorAdapter;
+import android.widget.SimpleCursorAdapter;
 import fr.isen.gardencalendar.Model.Plant;
+import fr.isen.gardencalendar.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +22,11 @@ public class PlantDb {
     private SQLiteDatabase bdd;
 
     private SqliteDal maBaseSQLite;
-
+    private Context context;
     public PlantDb(Context context){
         //On créer la BDD et sa table
-        maBaseSQLite = new SqliteDal(context, "blaaa", null, 1);
+        maBaseSQLite = new SqliteDal(context, "blaaa", null, 2);
+        this.context = context;
     }
 
     public void open(){
@@ -39,11 +43,11 @@ public class PlantDb {
         return bdd;
     }
 
-    public long insertLivre(Plant plant){
+    public long insertPlant(Plant plant){
         //Création d'un ContentValues (fonctionne comme une HashMap)
         ContentValues values = new ContentValues();
         //on lui ajoute une valeur associé à une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
-        values.put("name", plant.getName());
+        values.put("plant_name", plant.getName());
         //on insère l'objet dans la BDD via le ContentValues
         return bdd.insert("plants", null, values);
     }
@@ -53,18 +57,24 @@ public class PlantDb {
         //il faut simple préciser quelle plant on doit mettre à jour grâce à l'ID
         ContentValues values = new ContentValues();
 
-        values.put("name", plant.getName());
-        return bdd.update("plants", values, "id" + " = " +id, null);
+        values.put("plant_name", plant.getName());
+        return bdd.update("plants", values, "_id" + " = " +id, null);
     }
 
     public int removePlantWithID(int id){
         //Suppression d'un livre de la BDD grâce à l'ID
-        return bdd.delete("plants", "id" + " = " +id, null);
+        return bdd.delete("plants", "_id" + " = " +id, null);
     }
+    public CursorAdapter getPlantListAdapter(){
+        Cursor c = bdd.query("plants", new String[]{"_id", "plant_name"}, null, null, null, null, null);
+        String[] cols = { "plant_name"};
+        int[] to = {R.layout.planttextitem};
+        return new SimpleCursorAdapter(context,R.layout.planttextitem, c, cols, to, SimpleCursorAdapter.IGNORE_ITEM_VIEW_TYPE );
 
+    }
     public List<Plant> getPlants(){
         //Récupère dans un Cursor les valeur correspondant à un livre contenu dans la BDD (ici on sélectionne le livre grâce à son titre)
-        Cursor c = bdd.query("plants", new String[]{"id", "name"}, null, null, null, null, null);
+        Cursor c = bdd.query("plants", new String[]{"_id", "plant_name"}, null, null, null, null, null);
         List<Plant> result = new ArrayList<Plant>();
 
         for(int i=0; i<c.getCount(); i++){

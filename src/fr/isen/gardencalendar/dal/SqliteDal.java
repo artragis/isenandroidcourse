@@ -12,6 +12,7 @@ public class SqliteDal extends SQLiteOpenHelper {
 
     public SqliteDal(Context context, String name, CursorFactory factory, int version) {
         super(context, name, factory, version);
+
     }
 
     public SqliteDal(Context context, String name, CursorFactory factory, int version, DatabaseErrorHandler errorHandler) {
@@ -20,8 +21,7 @@ public class SqliteDal extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE plants IF NOT EXISTS "
-        +"( id INTEGER PRIMARY KEY AUTOINCREMENT, plant_name TEXT NOT NULL);");
+        db.execSQL("CREATE TABLE plants ( _id INTEGER PRIMARY KEY AUTOINCREMENT, plant_name TEXT NOT NULL);");
     }
 
     @Override
