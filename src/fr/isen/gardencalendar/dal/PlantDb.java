@@ -25,7 +25,7 @@ public class PlantDb {
     private Context context;
     public PlantDb(Context context){
         //On créer la BDD et sa table
-        maBaseSQLite = new SqliteDal(context, "blaaa", null, 2);
+        maBaseSQLite = new SqliteDal(context, "blaaa", null, R.integer.db_version);
         this.context = context;
     }
 
@@ -68,8 +68,8 @@ public class PlantDb {
     public CursorAdapter getPlantListAdapter(){
         Cursor c = bdd.query("plants", new String[]{"_id", "plant_name"}, null, null, null, null, null);
         String[] cols = { "plant_name"};
-        int[] to = {R.layout.planttextitem};
-        return new SimpleCursorAdapter(context,R.layout.planttextitem, c, cols, to, SimpleCursorAdapter.IGNORE_ITEM_VIEW_TYPE );
+        int[] to = { R.id.tvForPlant};
+        return new SimpleCursorAdapter(context,R.layout.planttextitem, c, cols, to, SimpleCursorAdapter.FLAG_AUTO_REQUERY );
 
     }
     public List<Plant> getPlants(){
