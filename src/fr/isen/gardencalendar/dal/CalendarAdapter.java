@@ -30,10 +30,10 @@ public class CalendarAdapter  implements SelectionCompletedListener{
         if(!isFetched){
             throw new NotFetchedException();
         }
+
         CursorAdapter adapter = new SimpleCursorAdapter(context, R.layout.planttextitem, cur,
-                new String[]{CalendarContract.Calendars.ACCOUNT_NAME,
-                        CalendarContract.Calendars.CALENDAR_DISPLAY_NAME},
-                new int[]{R.layout.planttextitem, R.layout.planttextitem},
+                ContentProviderDal.EVENT_PROJECTION,
+                new int[]{R.layout.planttextitem, R.layout.planttextitem, R.layout.planttextitem, R.layout.planttextitem, R.layout.planttextitem},
                 SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         return adapter;
     }

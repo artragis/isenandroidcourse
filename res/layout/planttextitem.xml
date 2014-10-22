@@ -5,7 +5,7 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content" android:id="@+id/tvForPlant"
         android:textColor="#FFFFFF"
-        android:textSize="12px"
+        android:textSize="12pt"
         android:text="BAAAAAA"
         >
 </TextView>
