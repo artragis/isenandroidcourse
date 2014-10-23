@@ -41,6 +41,7 @@ public class ShowCalendar extends Activity {
         CalendarAdapter cal = new CalendarAdapter(getApplicationContext());
         cal.addListener(new CalendarAdapter.ListViewContentBinder((ListView)findViewById(R.id.listView)));
         ContentProviderDal calendarDal = new ContentProviderDal(getApplicationContext());
+        //calendarDal.addPlant(toBeAdded, 1);
         calendarDal.addSelectionCompletedListener(cal);
         calendarDal.startSelect();
         //à voir pour graphique :

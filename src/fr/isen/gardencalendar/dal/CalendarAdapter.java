@@ -20,6 +20,7 @@ public class CalendarAdapter  implements SelectionCompletedListener{
     private Context context;
     private boolean isFetched = false;
     private List<DataFetchListener> onDataFetched = new LinkedList<DataFetchListener>();
+
     public CalendarAdapter(Context context) {
         this.context = context;
     }

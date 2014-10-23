@@ -36,12 +36,15 @@ public class ContentProviderDal extends AsyncQueryHandler {
     }
     public void addPlant(Plant plant, long calID){
         Date date = new Date();
+        date.setTime(date.getTime() + 60000);
         ContentValues values = new ContentValues();
         values.put(CalendarContract.Events.DTSTART, date.getTime());
         values.put(CalendarContract.Events.TITLE, plant.getName());
         values.put(CalendarContract.Events.DESCRIPTION, "Savez vous planter des choux?");
         values.put(CalendarContract.Events.CALENDAR_ID, calID);
-        startInsert(1, null, CalendarContract.Events.CONTENT_URI, values);
+        values.put(CalendarContract.Events.EVENT_TIMEZONE, "Europe/Paris");
+        values.put(CalendarContract.Events.DTEND, date.getTime() + 3600000);
+        startInsert(2, null, CalendarContract.Events.CONTENT_URI, values);
     }
     public void startSelect(){
 
@@ -65,4 +68,5 @@ public class ContentProviderDal extends AsyncQueryHandler {
             }
         }
     }
+
 }
