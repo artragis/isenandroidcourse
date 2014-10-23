@@ -5,9 +5,7 @@ import android.database.Cursor;
 import android.provider.CalendarContract;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CursorAdapter;
-import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
+import android.widget.*;
 import fr.isen.gardencalendar.R;
 
 import java.util.LinkedList;
@@ -26,15 +24,18 @@ public class CalendarAdapter  implements SelectionCompletedListener{
         this.context = context;
     }
 
-    public CursorAdapter getCursorAdapter() throws NotFetchedException{
+    public ArrayAdapter getCursorAdapter() throws NotFetchedException{
         if(!isFetched){
             throw new NotFetchedException();
         }
+        cur.moveToFirst();
+        List<String> str = new LinkedList<String>();
+        for(int i=0; i<cur.getCount(); i++){
+            str.add(cur.getString(1));
+            cur.moveToNext();
+        }
 
-        CursorAdapter adapter = new SimpleCursorAdapter(context, R.layout.planttextitem, cur,
-                ContentProviderDal.EVENT_PROJECTION,
-                new int[]{R.layout.planttextitem, R.layout.planttextitem, R.layout.planttextitem, R.layout.planttextitem, R.layout.planttextitem},
-                SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        ArrayAdapter adapter = new ArrayAdapter<String>(context, R.layout.planttextitem, str);
         return adapter;
     }
     public void addListener(DataFetchListener listener){
@@ -58,7 +59,7 @@ public class CalendarAdapter  implements SelectionCompletedListener{
         }
 
         @Override
-        public void onDataFetched(CursorAdapter adapter) {
+        public void onDataFetched(ArrayAdapter adapter) {
             view.setAdapter(adapter);
         }
     }
