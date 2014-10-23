@@ -48,10 +48,8 @@ public class ContentProviderDal extends AsyncQueryHandler {
     }
     public void startSelect(){
 
-        String selection = CalendarContract.Calendars.ACCOUNT_NAME + " = ? AND "+ CalendarContract.Calendars.OWNER_ACCOUNT
-                + " = ?";
-        String[] selectionArgs = new String[] {"julien09girard@gmail.com",
-                "julien09girard@gmail.com"};
+        String selection =  CalendarContract.Events.DTSTART +" > ? AND "+ CalendarContract.Events.DTEND +" < ?";
+        String[] selectionArgs = new String[] {String.valueOf( new Date().getTime() - 7200000) , String.valueOf( new Date().getTime() + 7200000)};
         super.startQuery(1, null, CalendarContract.Events.CONTENT_URI, EVENT_PROJECTION, selection, selectionArgs, null);
 
     }

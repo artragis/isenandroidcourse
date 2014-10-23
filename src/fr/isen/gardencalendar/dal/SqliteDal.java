@@ -22,11 +22,13 @@ public class SqliteDal extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE plants ( _id INTEGER PRIMARY KEY AUTOINCREMENT, plant_name TEXT NOT NULL);");
+        db.execSQL("CREATE TABLE plantable_days (_id INTEGER PRIMARY KEY AUTOINCREMENT, plant_id INTEGER NOT NULL, month_number INTEGER NOT NULL);");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i2) {
-        db.execSQL("DROP TABLE plants;");
+        db.execSQL("DROP TABLE IF EXISTS plants;");
+        db.execSQL("DROP TABLE IF EXISTS plantable_days");
         onCreate(db);
     }
 }

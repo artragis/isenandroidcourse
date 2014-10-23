@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.*;
 import fr.isen.gardencalendar.Model.Plant;
+import fr.isen.gardencalendar.Model.PlantableMonth;
 import fr.isen.gardencalendar.dal.CalendarAdapter;
 import fr.isen.gardencalendar.dal.ContentProviderDal;
 import fr.isen.gardencalendar.dal.PlantDb;
@@ -26,14 +27,25 @@ public class ShowCalendar extends Activity {
         plantList.setClickable(true);
 
         Plant toBeAdded = new Plant();
+        PlantableMonth pm = new PlantableMonth();
+        pm.setMonthNumber(3);
+        pm.setPlantId(1);
         toBeAdded.setName("Haricot");
         PlantDb db = new PlantDb(getApplicationContext());
         db.open();
         db.insertPlant(toBeAdded);
+        db.insertMonth(pm);
         plantList.setAdapter(db.getPlantListAdapter());
         //ArrayAdapter<Plant> list = new ArrayAdapter<Plant>(getApplicationContext(), R.layout.main, added);
         //plantList.setAdapter(list);
+
         plantList.setClickable(true);
+        try{
+            toBeAdded.setId(1);
+            db.getPlantableMonthForPlant(toBeAdded);
+        }catch (Exception e){
+
+        }
 
         //getContentResolver().
         db.close();

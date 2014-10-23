@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.widget.CursorAdapter;
 import android.widget.SimpleCursorAdapter;
 import fr.isen.gardencalendar.Model.Plant;
+import fr.isen.gardencalendar.Model.PlantableMonth;
 import fr.isen.gardencalendar.R;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class PlantDb {
     private Context context;
     public PlantDb(Context context){
         //On créer la BDD et sa table
-        maBaseSQLite = new SqliteDal(context, "blaaa", null, R.integer.db_version);
+        maBaseSQLite = new SqliteDal(context, "blaaa", null, 8);
         this.context = context;
     }
 
@@ -51,7 +52,15 @@ public class PlantDb {
         //on insère l'objet dans la BDD via le ContentValues
         return bdd.insert("plants", null, values);
     }
-
+    public long insertMonth(PlantableMonth plantableMonthm){
+        //Création d'un ContentValues (fonctionne comme une HashMap)
+        ContentValues values = new ContentValues();
+        //on lui ajoute une valeur associé à une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
+        values.put("plant_id", plantableMonthm.getPlantId());
+        values.put("month_number", plantableMonthm.getMonthNumber());
+        //on insère l'objet dans la BDD via le ContentValues
+        return bdd.insert("plantable_days", null, values);
+    }
     public int updatePlant(int id, Plant plant){
         //La mise à jour d'un plant dans la BDD fonctionne plus ou moins comme une insertion
         //il faut simple préciser quelle plant on doit mettre à jour grâce à l'ID
@@ -83,6 +92,22 @@ public class PlantDb {
 
         }
         c.close();
+        return result;
+    }
+
+    public List<PlantableMonth> getPlantableMonthForPlant(Plant p){
+        Cursor c = bdd.query("plantable_days", new String[]{"_id", "plant_id", "month_number"}, "plant_id = " + String.valueOf(p.getId()), null, null, null, null);
+        List<PlantableMonth> result = new ArrayList<PlantableMonth>();
+        c.moveToFirst();
+        do{
+            PlantableMonth pl = new PlantableMonth();
+            pl.setId(c.getInt(0));
+            pl.setPlantId(c.getInt(1));
+            pl.setMonthNumber(c.getInt(2));
+            result.add(pl);
+            c.moveToNext();
+        }
+        while (!c.isLast());
         return result;
     }
 
