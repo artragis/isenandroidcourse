@@ -38,31 +38,25 @@ public class ShowCalendar extends Activity {
                 "List View Array Adapter",
                 "Android Example List View"
         };
+        Plant toBeAdded = new Plant();
+        toBeAdded.setName("Haricot");
 
-        // Define a new Adapter
-        // First parameter - Context
-        // Second parameter - Layout for the row
-        // Third parameter - ID of the TextView to which the data is written
-        // Forth - the Array of data
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, values);
+        PlantDb bdd = new PlantDb(getApplicationContext());
+        bdd.open();
+        bdd.insertPlant(toBeAdded);
 
 
         // Assign adapter to ListView
-        listView.setAdapter(adapter);
-
+        listView.setAdapter(bdd.getPlantListAdapter());
+        Log.d("d","after adapter");
         CalendarAdapter cal = new CalendarAdapter(getApplicationContext());
         cal.addListener(new CalendarAdapter.ListViewContentBinder((ListView)findViewById(R.id.listView)));
         ContentProviderDal calendarDal = new ContentProviderDal(getApplicationContext());
-        calendarDal.addPlant(toBeAdded, 1);
+        //calendarDal.addPlant(toBeAdded, 1);
         calendarDal.addSelectionCompletedListener(cal);
         calendarDal.startSelect();
-        //à voir pour graphique :
-        //librairies for developer
-        //devappsdirect
-        //penser à utiliser android studio <3
 
+        bdd.close();
 
     }
 }

@@ -77,8 +77,9 @@ public class PlantDb {
     public CursorAdapter getPlantListAdapter(){
         Cursor c = bdd.query("plants", new String[]{"_id", "plant_name"}, null, null, null, null, null);
         String[] cols = { "plant_name"};
-        int[] to = { R.id.tvForPlant};
-        return new SimpleCursorAdapter(context,R.layout.planttextitem, c, cols, to, SimpleCursorAdapter.FLAG_AUTO_REQUERY );
+        int[] to = { android.R.id.text1};
+
+        return new SimpleCursorAdapter(context,android.R.layout.simple_list_item_1, c, cols, to, SimpleCursorAdapter.IGNORE_ITEM_VIEW_TYPE );
 
     }
     public List<Plant> getPlants(){
