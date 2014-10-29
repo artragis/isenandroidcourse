@@ -2,6 +2,8 @@ package fr.isen.gardencalendar;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Debug;
+import android.util.Log;
 import android.widget.*;
 import fr.isen.gardencalendar.Model.Plant;
 import fr.isen.gardencalendar.Model.PlantableMonth;
@@ -42,7 +44,8 @@ public class ShowCalendar extends Activity {
         plantList.setClickable(true);
         try{
             toBeAdded.setId(1);
-            db.getPlantableMonthForPlant(toBeAdded);
+            List<PlantableMonth> pml = db.getPlantableMonthForPlant(toBeAdded);
+            Log.d("bla", String.valueOf(pml.size()));
         }catch (Exception e){
 
         }
@@ -53,7 +56,7 @@ public class ShowCalendar extends Activity {
         CalendarAdapter cal = new CalendarAdapter(getApplicationContext());
         cal.addListener(new CalendarAdapter.ListViewContentBinder((ListView)findViewById(R.id.listView)));
         ContentProviderDal calendarDal = new ContentProviderDal(getApplicationContext());
-        //calendarDal.addPlant(toBeAdded, 1);
+        calendarDal.addPlant(toBeAdded, 1);
         calendarDal.addSelectionCompletedListener(cal);
         calendarDal.startSelect();
         //à voir pour graphique :
