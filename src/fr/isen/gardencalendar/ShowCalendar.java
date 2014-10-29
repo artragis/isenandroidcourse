@@ -15,43 +15,42 @@ import java.util.Calendar;
 import java.util.List;
 
 public class ShowCalendar extends Activity {
+    ListView listView ;
     /**
      * Called when the activity is first created.
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setTheme(R.style.AppTheme);
         setContentView(R.layout.main);
 
-        Spinner plantList = (Spinner)findViewById(R.id.spinner);
-        Plant haricot = new Plant();
+        // Get ListView object from xml
+        listView = (ListView) findViewById(R.id.listView);
 
-        plantList.setClickable(true);
+        // Defined Array values to show in ListView
+        String[] values = new String[] { "Android List View",
+                "Adapter implementation",
+                "Simple List View In Android",
+                "Create List View Android",
+                "Android Example",
+                "List View Source Code",
+                "List View Array Adapter",
+                "Android Example List View"
+        };
 
-        Plant toBeAdded = new Plant();
-        PlantableMonth pm = new PlantableMonth();
-        pm.setMonthNumber(3);
-        pm.setPlantId(1);
-        toBeAdded.setName("Haricot");
-        PlantDb db = new PlantDb(getApplicationContext());
-        db.open();
-        db.insertPlant(toBeAdded);
-        db.insertMonth(pm);
-        plantList.setAdapter(db.getPlantListAdapter());
-        //ArrayAdapter<Plant> list = new ArrayAdapter<Plant>(getApplicationContext(), R.layout.main, added);
-        //plantList.setAdapter(list);
+        // Define a new Adapter
+        // First parameter - Context
+        // Second parameter - Layout for the row
+        // Third parameter - ID of the TextView to which the data is written
+        // Forth - the Array of data
 
-        plantList.setClickable(true);
-        try{
-            toBeAdded.setId(1);
-            List<PlantableMonth> pml = db.getPlantableMonthForPlant(toBeAdded);
-            Log.d("bla", String.valueOf(pml.size()));
-        }catch (Exception e){
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, values);
 
-        }
 
-        //getContentResolver().
-        db.close();
+        // Assign adapter to ListView
+        listView.setAdapter(adapter);
 
         CalendarAdapter cal = new CalendarAdapter(getApplicationContext());
         cal.addListener(new CalendarAdapter.ListViewContentBinder((ListView)findViewById(R.id.listView)));
@@ -59,10 +58,11 @@ public class ShowCalendar extends Activity {
         calendarDal.addPlant(toBeAdded, 1);
         calendarDal.addSelectionCompletedListener(cal);
         calendarDal.startSelect();
-        //Ã  voir pour graphique :
+        //à voir pour graphique :
         //librairies for developer
         //devappsdirect
-        //penser Ã  utiliser android studio <3
+        //penser à utiliser android studio <3
+
 
     }
 }
