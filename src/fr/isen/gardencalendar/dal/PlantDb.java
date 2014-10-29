@@ -79,7 +79,7 @@ public class PlantDb {
         String[] cols = { "plant_name"};
         int[] to = { android.R.id.text1};
 
-        return new SimpleCursorAdapter(context,android.R.layout.simple_list_item_1, c, cols, to, SimpleCursorAdapter.IGNORE_ITEM_VIEW_TYPE );
+        return new SimpleCursorAdapter(context,android.R.layout.simple_list_item_1, c, cols, to, SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
     }
     public List<Plant> getPlants(){

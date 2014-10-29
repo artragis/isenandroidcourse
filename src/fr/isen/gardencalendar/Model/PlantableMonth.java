@@ -31,4 +31,10 @@ public class PlantableMonth {
     public void setMonthNumber(int monthNumber) {
         this.monthNumber = monthNumber;
     }
+
+    @Override
+    public String toString() {
+        String[] m = {"","Janvier", "Fevrier", "Mars", "Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Decembre"};
+        return m[getMonthNumber()];
+    }
 }
