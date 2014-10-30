@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
 import fr.isen.gardencalendar.Model.Plant;
+import fr.isen.gardencalendar.Model.PlantableMonth;
 
 import java.util.*;
 
@@ -34,9 +35,39 @@ public class ContentProviderDal extends AsyncQueryHandler {
 
 
     }
-    public void addPlant(Plant plant, long calID){
-        Date date = new Date();
-        date.setTime(date.getTime() + 60000);
+    private int getMonthForInt(int i){
+        switch (i){
+            case 1:
+                return Calendar.JANUARY;
+            case 2:
+                return Calendar.FEBRUARY;
+            case 3:
+                return Calendar.MARCH;
+            case 4:
+                return Calendar.APRIL;
+            case 5:
+                return Calendar.MAY;
+            case 6:
+                return Calendar.JUNE;
+            case 7:
+                return Calendar.JULY;
+            case 8:
+                return Calendar.AUGUST;
+            case 9:
+                return Calendar.SEPTEMBER;
+            case 10:
+            return Calendar.OCTOBER;
+            case 11:
+                return Calendar.NOVEMBER;
+            default:
+                return Calendar.DECEMBER;
+        }
+    }
+    public void addPlant(Plant plant, PlantableMonth month, long calID){
+
+        Calendar cal = Calendar.getInstance( TimeZone.getDefault());
+        cal.set(Calendar.YEAR, getMonthForInt(month.getMonthNumber()) , 1);
+        Date date = cal.getTime();
         ContentValues values = new ContentValues();
         values.put(CalendarContract.Events.DTSTART, date.getTime());
         values.put(CalendarContract.Events.TITLE, plant.getName());

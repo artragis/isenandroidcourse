@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.*;
 import fr.isen.gardencalendar.Model.Plant;
 import fr.isen.gardencalendar.Model.PlantableMonth;
+import fr.isen.gardencalendar.View.PlantClickListener;
 import fr.isen.gardencalendar.dal.CalendarAdapter;
 import fr.isen.gardencalendar.dal.ContentProviderDal;
 import fr.isen.gardencalendar.dal.PlantDb;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class ShowCalendar extends Activity implements AdapterView.OnItemClickListener{
+public class ShowCalendar extends Activity {
     ListView listView ;
     PlantDb bdd;
     /**
@@ -62,7 +63,7 @@ public class ShowCalendar extends Activity implements AdapterView.OnItemClickLis
         //calendarDal.addPlant(toBeAdded, 1);
         calendarDal.addSelectionCompletedListener(cal);
         calendarDal.startSelect();
-*/      listView.setOnItemClickListener(this);
+*/      listView.setOnItemClickListener(new PlantClickListener(listView, bdd, this));
         //bdd.close();
 
     }
@@ -101,26 +102,5 @@ public class ShowCalendar extends Activity implements AdapterView.OnItemClickLis
         bdd.close();
     }
 
-    /**
-     * Callback method to be invoked when an item in this AdapterView has
-     * been clicked.
-     * <p/>
-     * Implementers can call getItemAtPosition(position) if they need
-     * to access the data associated with the selected item.
-     *
-     * @param parent   The AdapterView where the click happened.
-     * @param view     The view within the AdapterView that was clicked (this
-     *                 will be a view provided by the adapter)
-     * @param position The position of the view in the adapter.
-     * @param id       The row id of the item that was clicked.
-     */
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Plant plant = bdd.getPlants().get(position);
-        ArrayAdapter<Object> adapter = new ArrayAdapter<Object>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, bdd.getPlantableMonthForPlant(plant).toArray());
-        bdd.getPlantableMonthForPlant(plant);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(null);
-    }
+
 }
