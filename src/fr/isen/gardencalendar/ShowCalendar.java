@@ -9,6 +9,7 @@ import android.widget.*;
 import fr.isen.gardencalendar.Model.Plant;
 import fr.isen.gardencalendar.Model.PlantableMonth;
 import fr.isen.gardencalendar.View.PlantClickListener;
+import fr.isen.gardencalendar.View.PutAllListButtonListener;
 import fr.isen.gardencalendar.dal.CalendarAdapter;
 import fr.isen.gardencalendar.dal.ContentProviderDal;
 import fr.isen.gardencalendar.dal.PlantDb;
@@ -28,6 +29,7 @@ public class ShowCalendar extends Activity {
         super.onCreate(savedInstanceState);
         this.setTheme(R.style.AppTheme);
         setContentView(R.layout.main);
+
 // Get ListView object from xml
         listView = (ListView) findViewById(R.id.listView);
         listView.setItemsCanFocus(true);
@@ -40,31 +42,10 @@ public class ShowCalendar extends Activity {
 
         bdd = new PlantDb(getApplicationContext());
         bdd.open();
-        bdd.insertPlant(toBeAdded);
-        List<Plant> plants = bdd.getPlants();
-        List<String> plantName = new ArrayList<String>();
-        for(Plant p1: plants){
-            plantName.add(p1.getName());
-            PlantableMonth m = new PlantableMonth();
-            m.setPlantId(p1.getId());
-            m.setMonthNumber(8);
-            bdd.insertMonth(m);
 
-        }
-        ArrayAdapter<Plant> adapter = new ArrayAdapter<Plant>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, plants.toArray(new Plant[plants.size()]));
-        // Assign adapter to ListView
-        listView.setAdapter(adapter);
-        Log.d("size", String.valueOf(plantName.size()));
-        Log.d("d","after adapter");
-/*        CalendarAdapter cal = new CalendarAdapter(getApplicationContext());
-        cal.addListener(new CalendarAdapter.ListViewContentBinder((ListView)findViewById(R.id.listView)));
-        ContentProviderDal calendarDal = new ContentProviderDal(getApplicationContext());
-        //calendarDal.addPlant(toBeAdded, 1);
-        calendarDal.addSelectionCompletedListener(cal);
-        calendarDal.startSelect();
-*/      listView.setOnItemClickListener(new PlantClickListener(listView, bdd, this));
-        //bdd.close();
+        Button listAllButton = (Button) findViewById(R.id.liste_toute_button);
+        listAllButton.setOnClickListener(new PutAllListButtonListener(this, bdd, listView));
+        listAllButton.callOnClick();
 
     }
 
