@@ -1,6 +1,7 @@
 package fr.isen.gardencalendar.View;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -39,11 +40,13 @@ public class PlantClickListener implements AdapterView.OnItemClickListener {
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Plant plant = bdd.getPlants().get(position);
+        Plant plant = bdd.getPlants().get(position );
         ArrayAdapter<Object> adapter = new ArrayAdapter<Object>(c,
                 android.R.layout.simple_list_item_1, android.R.id.text1, bdd.getPlantableMonthForPlant(plant).toArray());
-        bdd.getPlantableMonthForPlant(plant);
+
+        Log.d("size",String.valueOf( adapter.getCount()));
         listView.setAdapter(adapter);
+
         listView.setOnItemClickListener(new MonthClickListener(bdd, c, plant, listView));
 
     }

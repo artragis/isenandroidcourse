@@ -99,6 +99,8 @@ public class PlantDb {
     public List<PlantableMonth> getPlantableMonthForPlant(Plant p){
         Cursor c = bdd.query("plantable_days", new String[]{"_id", "plant_id", "month_number"}, "plant_id = " + String.valueOf(p.getId()), null, null, null, null);
         List<PlantableMonth> result = new ArrayList<PlantableMonth>();
+        int count = c.getCount();
+        int i = 1;
         c.moveToFirst();
         do{
             PlantableMonth pl = new PlantableMonth();
@@ -107,8 +109,9 @@ public class PlantDb {
             pl.setMonthNumber(c.getInt(2));
             result.add(pl);
             c.moveToNext();
+            i++;
         }
-        while (!c.isLast());
+        while (i < count);
         return result;
     }
 

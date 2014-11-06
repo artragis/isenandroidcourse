@@ -66,16 +66,21 @@ public class ContentProviderDal extends AsyncQueryHandler {
     public void addPlant(Plant plant, PlantableMonth month, long calID){
 
         Calendar cal = Calendar.getInstance( TimeZone.getDefault());
-        cal.set(Calendar.YEAR, getMonthForInt(month.getMonthNumber()) , 1);
+        if(Calendar.MONTH <= month.getMonthNumber())
+            cal.set(Calendar.YEAR, getMonthForInt(month.getMonthNumber()) , 1);
+        else{
+            cal.set(Calendar.YEAR +1 , getMonthForInt(month.getMonthNumber()) , 1);
+        }
+
         Date date = cal.getTime();
         ContentValues values = new ContentValues();
         values.put(CalendarContract.Events.DTSTART, date.getTime());
         values.put(CalendarContract.Events.TITLE, plant.getName());
         values.put(CalendarContract.Events.DESCRIPTION, "Savez vous planter des choux?");
-        values.put(CalendarContract.Events.CALENDAR_ID, calID);
+        values.put(CalendarContract.Events.CALENDAR_ID, 2);
         values.put(CalendarContract.Events.EVENT_TIMEZONE, "Europe/Paris");
         values.put(CalendarContract.Events.DTEND, date.getTime() + 3600000);
-        startInsert(2, null, CalendarContract.Events.CONTENT_URI, values);
+        startInsert(3, null, CalendarContract.Events.CONTENT_URI, values);
     }
     public void startSelect(){
 
