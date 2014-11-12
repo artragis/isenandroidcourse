@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import fr.isen.gardencalendar.Model.Plant;
+import fr.isen.gardencalendar.dal.CustomArrayAdapter;
 import fr.isen.gardencalendar.dal.PlantDb;
 
 /**
@@ -43,9 +44,15 @@ public class PlantClickListener implements AdapterView.OnItemClickListener {
         Plant plant = bdd.getPlants().get(position );
         ArrayAdapter<Object> adapter = new ArrayAdapter<Object>(c,
                 android.R.layout.simple_list_item_1, android.R.id.text1, bdd.getPlantableMonthForPlant(plant).toArray());
+        String[] mockup = {
+                "Semer: Oignon jaune     Mai",
+                "Semer: Haricot      Juin",
+                "Récolter: Haricot    Août",
+                "Récolter: Oignon jaune Octobre"
+        };
 
         Log.d("size",String.valueOf( adapter.getCount()));
-        listView.setAdapter(adapter);
+        listView.setAdapter(new CustomArrayAdapter(c,android.R.layout.simple_list_item_1, android.R.id.text1, mockup ));
 
         listView.setOnItemClickListener(new MonthClickListener(bdd, c, plant, listView));
 
